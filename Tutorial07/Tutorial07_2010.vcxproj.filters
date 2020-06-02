@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns:atg="http://atg.xbox.com" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8e114980-c1a3-4ada-ad7c-83caadf5daeb}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="DXUT">
+      <UniqueIdentifier>{a43c5c25-0e86-4a20-b64a-883785ff74fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
+      <Extensions>fx;fxh;hlsl</Extensions>
+    </Filter>
+    <Filter Include="GLM">
+      <UniqueIdentifier>{8974a71b-91ac-4742-8b62-ac89a6f80e64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2">
+      <UniqueIdentifier>{e2ca02ef-d69e-4ec9-b3f6-117fd06f753a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 1">
+      <UniqueIdentifier>{e9e96240-27b2-4802-910a-398f2f2ce4ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\Buffers">
+      <UniqueIdentifier>{f6be9574-873a-4135-b4d7-fd88cf3a5dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\Device">
+      <UniqueIdentifier>{2e41c40f-94d4-4e3e-af47-cde6b9739615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\RenderTarget">
+      <UniqueIdentifier>{39cac435-8817-4a95-bf51-ae1ea01c22d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\SwapChain">
+      <UniqueIdentifier>{bfb6c005-c202-4f84-8739-4246f360f73f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\PixelShader">
+      <UniqueIdentifier>{6be5305e-306f-4cb3-a9b7-13f554c7878a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\VertexShader">
+      <UniqueIdentifier>{f5e4dfd4-1531-48f0-b05d-2d4181d50256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\InputLayout">
+      <UniqueIdentifier>{cf724880-5da4-4937-86ba-5844c5ef014e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\SamplerState">
+      <UniqueIdentifier>{27b3173d-6fb7-48eb-acbe-325035f03d45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\Viewport">
+      <UniqueIdentifier>{d10a02c9-d71a-479a-b622-86364dc3c996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parcial 2\Imgui">
+      <UniqueIdentifier>{109b6609-8df0-4bdb-b040-78b144c8b860}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Parcial 2\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="CDevice.cpp">
+      <Filter>Parcial 2\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="CDeviceContext.cpp">
+      <Filter>Parcial 2\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="CIndexBuffer.cpp">
+      <Filter>Parcial 2\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderTarget.cpp">
+      <Filter>Parcial 2\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderTargetView.cpp">
+      <Filter>Parcial 2\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="CSwapChain.cpp">
+      <Filter>Parcial 2\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="CMyCamara.cpp">
+      <Filter>Parcial 1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMyCameraFP.cpp">
+      <Filter>Parcial 1</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Parcial 2\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="CDepthStencilView.cpp">
+      <Filter>Parcial 2\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="CPixelShader.cpp">
+      <Filter>Parcial 2\PixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CVertexShader.cpp">
+      <Filter>Parcial 2\VertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CInputLayout.cpp">
+      <Filter>Parcial 2\InputLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="CSamplerState.cpp">
+      <Filter>Parcial 2\SamplerState</Filter>
+    </ClCompile>
+    <ClCompile Include="CViewport.cpp">
+      <Filter>Parcial 2\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="amgui\imgui.cpp">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="amgui\imgui_demo.cpp">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="amgui\imgui_draw.cpp">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="amgui\imgui_impl_dx11.cpp">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="amgui\imgui_impl_win32.cpp">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="amgui\imgui_widgets.cpp">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="CApiManagerDX11.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Tutorial07.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tutorial07.fx">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CLInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </CLInclude>
+    <ResourceCompile Include="Tutorial07.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ClInclude Include="Buffer.h">
+      <Filter>Parcial 2\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="CDevice.h">
+      <Filter>Parcial 2\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="CDeviceContext.h">
+      <Filter>Parcial 2\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="CIndexBuffer.h">
+      <Filter>Parcial 2\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderTarget.h">
+      <Filter>Parcial 2\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderTargetView.h">
+      <Filter>Parcial 2\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="CSwapChain.h">
+      <Filter>Parcial 2\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="CMyCamara.h">
+      <Filter>Parcial 1</Filter>
+    </ClInclude>
+    <ClInclude Include="CMyCameraFP.h">
+      <Filter>Parcial 1</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Parcial 2\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake.h">
+      <Filter>Parcial 2</Filter>
+    </ClInclude>
+    <ClInclude Include="CDepthStencilView.h">
+      <Filter>Parcial 2\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="CPixelShader.h">
+      <Filter>Parcial 2\PixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CVertexShader.h">
+      <Filter>Parcial 2\VertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CInputLayout.h">
+      <Filter>Parcial 2\InputLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="CSamplerState.h">
+      <Filter>Parcial 2\SamplerState</Filter>
+    </ClInclude>
+    <ClInclude Include="CViewport.h">
+      <Filter>Parcial 2\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="amgui\imconfig.h">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="amgui\imgui.h">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="amgui\imgui_impl_dx11.h">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="amgui\imgui_impl_win32.h">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="amgui\imgui_internal.h">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="amgui\imstb_rectpack.h">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="amgui\imstb_textedit.h">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="amgui\imstb_truetype.h">
+      <Filter>Parcial 2\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="CApiManagerDX11.h" />
+  </ItemGroup>
+</Project>
