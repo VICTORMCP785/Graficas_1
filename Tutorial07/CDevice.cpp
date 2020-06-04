@@ -18,7 +18,7 @@ CDevice::CDevice()
 
 void CDevice::Init(DeviceStruct DS)
 {
-	DSi = DS;
+	m_DS = DS;
 }
 
 void CDevice::Update()

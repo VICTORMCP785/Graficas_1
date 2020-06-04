@@ -365,20 +365,20 @@ HRESULT InitDevice()
 #ifdef _DEBUG
     createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-	DeviceStruct DSiXL;
+	//DeviceStruct DSiXL;
 #ifdef D3D11
 	/*DSiXL.Dev_Flag = createDeviceFlags;
 	DSiXL.DriverTypeArr[0] = D3D_DRIVER_TYPE_HARDWARE;
 	DSiXL.DriverTypeArr[1] = D3D_DRIVER_TYPE_WARP;
 	DSiXL.DriverTypeArr[2] = D3D_DRIVER_TYPE_REFERENCE;
-	
-DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
+	DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 	DSiXL.FeatureLevel[1] = D3D_FEATURE_LEVEL_10_1;
 	DSiXL.FeatureLevel[2] = D3D_FEATURE_LEVEL_10_0;
 	DSiXL.numFeatureLevel = ARRAYSIZE(DSiXL.FeatureLevel);
 	g_Device->Init(DSiXL);*/
-	
-	UINT numDriverTypes = ARRAYSIZE(DSiXL.DriverTypeArr);
+
+	g_ApiManager->initDdevice();
+	UINT numDriverTypes = ARRAYSIZE(g_ApiManager->m_Device.m_DS.DriverTypeArr);
 
     SwapChainStruct sd;
     ZeroMemory( &sd, sizeof( sd ) );
@@ -398,11 +398,12 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
     for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
 
-        g_Device->DSi.DriverType = g_Device->DSi.DriverTypeArr[driverTypeIndex];
-        hr = D3D11CreateDeviceAndSwapChain( NULL, (D3D_DRIVER_TYPE)g_Device->DSi.DriverType, NULL, g_Device->DSi.Dev_Flag, 
-			g_Device->DSi.FeatureLevel, g_Device->DSi.numFeatureLevel,
-            D3D11_SDK_VERSION, &g_SwapChain->SwapChainDesc, &g_SwapChain->DXSC, &g_Device->DeviceD11, 
-			(D3D_FEATURE_LEVEL*)&g_featureLevel, &g_DeviceContext->m_DeviceContext);
+        g_ApiManager->m_Device.m_DS.DriverType = g_ApiManager->m_Device.m_DS.DriverTypeArr[driverTypeIndex];
+        hr = D3D11CreateDeviceAndSwapChain( NULL, (D3D_DRIVER_TYPE)g_ApiManager->m_Device.m_DS.DriverType, NULL, 
+			g_ApiManager->m_Device.m_DS.Dev_Flag, g_ApiManager->m_Device.m_DS.FeatureLevel, 
+			g_ApiManager->m_Device.m_DS.numFeatureLevel, D3D11_SDK_VERSION, &g_SwapChain->SwapChainDesc, 
+			&g_SwapChain->DXSC, &g_ApiManager->m_Device.m_DeviceD11, (D3D_FEATURE_LEVEL*)&g_featureLevel,
+			&g_DeviceContext->m_DeviceContext);
 
         if( SUCCEEDED( hr ) )
             break;
@@ -418,7 +419,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
     if( FAILED( hr ) )
         return hr;
 #ifdef D3D11
-    hr = g_Device->DeviceD11->CreateRenderTargetView(g_BackBuffer.Texture2D, NULL, &g_RenderTargetView.RenderTargetView );
+    hr = g_ApiManager->m_Device.m_DeviceD11->CreateRenderTargetView(g_BackBuffer.Texture2D, NULL, &g_RenderTargetView.RenderTargetView );
 	g_BackBuffer.Texture2D->Release();
 #endif
     if( FAILED( hr ) )
@@ -443,7 +444,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 
 	g_DepthStencil.Init(descDepth);
 
-    hr = g_Device->DeviceD11->CreateTexture2D( &g_DepthStencil.Texture2DDesc, NULL, &g_DepthStencil.Texture2D );
+    hr = g_ApiManager->m_Device.m_DeviceD11->CreateTexture2D( &g_DepthStencil.Texture2DDesc, NULL, &g_DepthStencil.Texture2D );
     if( FAILED( hr ) )
         return hr;
 
@@ -455,7 +456,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 	structDepthStencilView.texture2D.mipSlice = 0;
 	g_DepthStencilView.Init(structDepthStencilView, (FORMAT)g_DepthStencil.Texture2DDesc.Format);
 
-    hr = g_Device->DeviceD11->CreateDepthStencilView(g_DepthStencil.Texture2D, &g_DepthStencilView.descDSV, &g_DepthStencilView.DepthStencilView );
+    hr = g_ApiManager->m_Device.m_DeviceD11->CreateDepthStencilView(g_DepthStencil.Texture2D, &g_DepthStencilView.descDSV, &g_DepthStencilView.DepthStencilView );
     if( FAILED( hr ) )
         return hr;
 #endif
@@ -484,14 +485,14 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
     }
 
     // Create the vertex shader
-	hr = g_Device->DeviceD11->CreateVertexShader(g_VertexShader.m_pVSBlob->GetBufferPointer(), g_VertexShader.m_pVSBlob->GetBufferSize(), NULL, &g_VertexShader.VertexShader);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateVertexShader(g_VertexShader.m_pVSBlob->GetBufferPointer(), g_VertexShader.m_pVSBlob->GetBufferSize(), NULL, &g_VertexShader.VertexShader);
     if( FAILED( hr ) )
     {    
 		g_VertexShader.m_pVSBlob->Release();
         return hr;
     }
 	//Create input layout from compiled VS
-	hr = CreateInputLayoutDescFromVertexShaderSignature(g_VertexShader.m_pVSBlob, g_Device->DeviceD11, &g_VertexShader.m_pInputLayout);
+	hr = CreateInputLayoutDescFromVertexShaderSignature(g_VertexShader.m_pVSBlob, g_ApiManager->m_Device.m_DeviceD11, &g_VertexShader.m_pInputLayout);
 	if (FAILED(hr))
 		return hr;
     // Set the input layout
@@ -508,7 +509,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 #endif
     // Create the pixel shader
 #ifdef D3D11
-    hr = g_Device->DeviceD11->CreatePixelShader(g_PixelShader.pPSBlob->GetBufferPointer(), g_PixelShader.pPSBlob->GetBufferSize(), NULL, &g_PixelShader.PixelShader );
+    hr = g_ApiManager->m_Device.m_DeviceD11->CreatePixelShader(g_PixelShader.pPSBlob->GetBufferPointer(), g_PixelShader.pPSBlob->GetBufferSize(), NULL, &g_PixelShader.PixelShader );
 	g_PixelShader.pPSBlob->Release();
 #endif
     if( FAILED( hr ) )
@@ -559,7 +560,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 	subrsrcData.psysMem = vertices;
 	g_VertexBuffer.Init(subrsrcData, bd);
 
-    hr = g_Device->DeviceD11->CreateBuffer( &g_VertexBuffer.BufferDesc, &g_VertexBuffer.SUBDATA, &g_VertexBuffer.VertexBufferD11 );
+    hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer( &g_VertexBuffer.BufferDesc, &g_VertexBuffer.SUBDATA, &g_VertexBuffer.VertexBufferD11 );
 #endif
     if( FAILED( hr ) )
         return hr;
@@ -602,7 +603,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 	IDS.psysMem = indices;
 	g_IndexBuffer.Init(IDS,bd);
 
-    hr = g_Device->DeviceD11->CreateBuffer( &g_IndexBuffer.BufferDesc, &g_IndexBuffer.SUBDATA, &g_IndexBuffer.IndexBufferD11 );
+    hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer( &g_IndexBuffer.BufferDesc, &g_IndexBuffer.SUBDATA, &g_IndexBuffer.IndexBufferD11 );
 #endif
     if( FAILED( hr ) )
         return hr;
@@ -623,17 +624,17 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
     bd.bindFlags = D3D11_BIND_CONSTANT_BUFFER;
     bd.cpuAccessFlags = 0;
 	g_NeverChange.Init(bd);
-    hr = g_Device->DeviceD11->CreateBuffer( &g_NeverChange.BufferDesc, NULL, &g_NeverChange.BufferD11 );
+    hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer( &g_NeverChange.BufferDesc, NULL, &g_NeverChange.BufferD11 );
 
 	//Free Camera
 	g_MyCamara.m_CBNeverChanges.Init(bd);
-	hr = g_Device->DeviceD11->CreateBuffer(&g_MyCamara.m_CBNeverChanges.BufferDesc, NULL, &g_MyCamara.m_CBNeverChanges.BufferD11);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer(&g_MyCamara.m_CBNeverChanges.BufferDesc, NULL, &g_MyCamara.m_CBNeverChanges.BufferD11);
 	if (FAILED(hr))
 		return hr;
 
 	//FPS Camera
 	g_MyCamaraFP.m_CBNeverChanges.Init(bd);
-	hr = g_Device->DeviceD11->CreateBuffer(&g_MyCamaraFP.m_CBNeverChanges.BufferDesc, NULL, &g_MyCamaraFP.m_CBNeverChanges.BufferD11);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer(&g_MyCamaraFP.m_CBNeverChanges.BufferDesc, NULL, &g_MyCamaraFP.m_CBNeverChanges.BufferD11);
 	if (FAILED(hr))
 		return hr;
 
@@ -641,13 +642,13 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 	bd.byteWidth = sizeof(CBChangeOnResize);
 	//Free Camera
 	g_MyCamara.m_CBChangesOnResize.Init(bd);
-	hr = g_Device->DeviceD11->CreateBuffer(&g_MyCamara.m_CBChangesOnResize.BufferDesc, NULL, &g_MyCamara.m_CBChangesOnResize.BufferD11);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer(&g_MyCamara.m_CBChangesOnResize.BufferDesc, NULL, &g_MyCamara.m_CBChangesOnResize.BufferD11);
 	if (FAILED(hr))
 		return hr;
 
 	//FPS Camera
 	g_MyCamaraFP.m_CBChangesOnResize.Init(bd);
-	hr = g_Device->DeviceD11->CreateBuffer(&g_MyCamaraFP.m_CBChangesOnResize.BufferDesc, NULL, &g_MyCamaraFP.m_CBChangesOnResize.BufferD11);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer(&g_MyCamaraFP.m_CBChangesOnResize.BufferDesc, NULL, &g_MyCamaraFP.m_CBChangesOnResize.BufferD11);
 	if (FAILED(hr))
 		return hr;
 
@@ -655,18 +656,18 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 	bd.byteWidth = sizeof(CBChangesEveryFrame);
 	//Free Camera
 	g_MyCamara.m_CBChangesEveryFrame.Init(bd);
-	hr = g_Device->DeviceD11->CreateBuffer(&g_MyCamara.m_CBChangesEveryFrame.BufferDesc, NULL, &g_MyCamara.m_CBChangesEveryFrame.BufferD11);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer(&g_MyCamara.m_CBChangesEveryFrame.BufferDesc, NULL, &g_MyCamara.m_CBChangesEveryFrame.BufferD11);
 	if (FAILED(hr))
 		return hr;
 
 	//FPS Camera
 	g_MyCamaraFP.m_CBChangesEveryFrame.Init(bd);
-	hr = g_Device->DeviceD11->CreateBuffer(&g_MyCamaraFP.m_CBChangesEveryFrame.BufferDesc, NULL, &g_MyCamaraFP.m_CBChangesEveryFrame.BufferD11);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateBuffer(&g_MyCamaraFP.m_CBChangesEveryFrame.BufferDesc, NULL, &g_MyCamaraFP.m_CBChangesEveryFrame.BufferD11);
 	if (FAILED(hr))
 		return hr;
 
 	// Load the Texture 
-	hr = D3DX11CreateShaderResourceViewFromFile(g_Device->DeviceD11, L"seafloor.dds", NULL, NULL, &g_pTextureRV, NULL);
+	hr = D3DX11CreateShaderResourceViewFromFile(g_ApiManager->m_Device.m_DeviceD11, L"seafloor.dds", NULL, NULL, &g_pTextureRV, NULL);
 	if (FAILED(hr))
 		return hr;
 #endif
@@ -683,7 +684,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 
 	g_SamplerState.Init(samplerDsc);
 #ifdef D3D11
-	hr = g_Device->DeviceD11->CreateSamplerState(&g_SamplerState.Desc, &g_SamplerState.SamplerStates);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateSamplerState(&g_SamplerState.Desc, &g_SamplerState.SamplerStates);
 	if (FAILED(hr))
 		return hr;
 #endif
@@ -751,7 +752,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 
 	g_InteractiveCamaraTexure.Init(D);
 
-	hr = g_Device->DeviceD11->CreateTexture2D(&g_InteractiveCamaraTexure.Texture2DDesc, NULL, &g_InteractiveCamaraTexure.Texture2D);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateTexture2D(&g_InteractiveCamaraTexure.Texture2DDesc, NULL, &g_InteractiveCamaraTexure.Texture2D);
 	if (FAILED(hr))
 		return hr;
 
@@ -764,7 +765,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 
 	g_RenderTargedView2.Init(rtDesc);
 
-	hr = g_Device->DeviceD11->CreateRenderTargetView(g_InteractiveCamaraTexure.Texture2D, &g_RenderTargedView2.m_Desc, &g_RenderTargedView2.RenderTargetView);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateRenderTargetView(g_InteractiveCamaraTexure.Texture2D, &g_RenderTargedView2.m_Desc, &g_RenderTargedView2.RenderTargetView);
 	if (FAILED(hr))
 		return hr;
 #endif
@@ -776,7 +777,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 	view.Texture2D.MostDetailedMip = 0;
 	view.Texture2D.MipLevels = 1;
 
-	hr = g_Device->DeviceD11->CreateShaderResourceView(g_InteractiveCamaraTexure.Texture2D, &view, &g_TextureInactive);
+	hr = g_ApiManager->m_Device.m_DeviceD11->CreateShaderResourceView(g_InteractiveCamaraTexure.Texture2D, &view, &g_TextureInactive);
 	if (FAILED(hr))
 		return hr;
 #endif
@@ -789,7 +790,7 @@ DSiXL.FeatureLevel[0] = D3D_FEATURE_LEVEL_11_0;
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui_ImplWin32_Init(g_hWnd);
-	ImGui_ImplDX11_Init(g_Device->DeviceD11, g_DeviceContext->m_DeviceContext);
+	ImGui_ImplDX11_Init(g_ApiManager->m_Device.m_DeviceD11, g_DeviceContext->m_DeviceContext);
 	ImGui::StyleColorsDark();
 #endif
 	return S_OK;
@@ -819,7 +820,7 @@ void CleanupDevice()
     if( g_RenderTargetView.RenderTargetView ) g_RenderTargetView.RenderTargetView->Release();
     if(g_SwapChain->DXSC) g_SwapChain->DXSC->Release();
     if( g_DeviceContext->m_DeviceContext ) g_DeviceContext->m_DeviceContext->Release();
-    if(g_Device->DeviceD11) g_Device->DeviceD11->Release();
+    if(g_ApiManager->m_Device.m_DeviceD11) g_ApiManager->m_Device.m_DeviceD11->Release();
 #endif
 }
 
@@ -895,14 +896,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				T.miscFlags = 0;
 				g_InteractiveCamaraTexure.Init(T);
 
-				h = g_Device->DeviceD11->CreateTexture2D(&g_InteractiveCamaraTexure.Texture2DDesc, NULL, &g_InteractiveCamaraTexure.Texture2D);
+				h = g_ApiManager->m_Device.m_DeviceD11->CreateTexture2D(&g_InteractiveCamaraTexure.Texture2DDesc, NULL, &g_InteractiveCamaraTexure.Texture2D);
 
 				RenderTargetViewStruct RTV;
 				RTV.format = T.format;
 				RTV.viewDimension = RTV_DIMENSION_TEXTURE2D;
 				RTV.texture1D.mipSlice = 0;
 				g_RenderTargedView2.Init(RTV);
-				h = g_Device->DeviceD11->CreateRenderTargetView(g_InteractiveCamaraTexure.Texture2D, &g_RenderTargedView2.m_Desc, &g_RenderTargedView2.RenderTargetView);
+				h = g_ApiManager->m_Device.m_DeviceD11->CreateRenderTargetView(g_InteractiveCamaraTexure.Texture2D, &g_RenderTargedView2.m_Desc, &g_RenderTargedView2.RenderTargetView);
 
 				D3D11_SHADER_RESOURCE_VIEW_DESC SRV;
 				SRV.Format = (DXGI_FORMAT)T.format;
@@ -910,7 +911,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				SRV.Texture2D.MostDetailedMip = 0;
 				SRV.Texture2D.MipLevels = 1;
 
-				h = g_Device->DeviceD11->CreateShaderResourceView(g_InteractiveCamaraTexure.Texture2D, &SRV, &g_TextureInactive);
+				h = g_ApiManager->m_Device.m_DeviceD11->CreateShaderResourceView(g_InteractiveCamaraTexure.Texture2D, &SRV, &g_TextureInactive);
 
 				g_DeviceContext->m_DeviceContext->OMSetRenderTargets(0, 0, 0);
 				g_RenderTargetView.RenderTargetView->Release();
@@ -920,7 +921,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				CBuffer tempBack;
 				h = g_SwapChain->DXSC->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&tempBack.BufferD11);
-				h = g_Device->DeviceD11->CreateRenderTargetView(tempBack.BufferD11, NULL, &g_RenderTargetView.RenderTargetView);
+				h = g_ApiManager->m_Device.m_DeviceD11->CreateRenderTargetView(tempBack.BufferD11, NULL, &g_RenderTargetView.RenderTargetView);
 				tempBack.BufferD11->Release();
 
 				g_DepthStencil.Texture2D->Release();
@@ -939,7 +940,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				g_DepthStencil.Init(DepthDesc);
 
-				h = g_Device->DeviceD11->CreateTexture2D(&g_DepthStencil.Texture2DDesc, NULL, &g_DepthStencil.Texture2D);
+				h = g_ApiManager->m_Device.m_DeviceD11->CreateTexture2D(&g_DepthStencil.Texture2DDesc, NULL, &g_DepthStencil.Texture2D);
 
 				DepthStencilViewStruct DSV;
 				DSV.format = g_DepthStencil.RTS.format;
@@ -950,7 +951,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				g_DepthStencilView.Init(DSV, (FORMAT)g_DepthStencil.Texture2DDesc.Format);
 
-				h = g_Device->DeviceD11->CreateDepthStencilView(g_DepthStencil.Texture2D, &g_DepthStencilView.descDSV, &g_DepthStencilView.DepthStencilView);
+				h = g_ApiManager->m_Device.m_DeviceD11->CreateDepthStencilView(g_DepthStencil.Texture2D, &g_DepthStencilView.descDSV, &g_DepthStencilView.DepthStencilView);
 
 				g_DeviceContext->m_DeviceContext->OMSetRenderTargets(1, &g_RenderTargetView.RenderTargetView, g_DepthStencilView.DepthStencilView);
 
@@ -1023,7 +1024,7 @@ void Render()
 #ifdef D3D11
 	// Update our time
 	static float t = 0.0f;
-	if (g_Device->DSi.DriverType == D3D_DRIVER_TYPE_REFERENCE)
+	if (g_ApiManager->m_Device.m_DS.DriverType == D3D_DRIVER_TYPE_REFERENCE)
 	{
 		t += (float)XM_PI * 0.0125f;
 	}
