@@ -4,14 +4,19 @@ CDeviceContext::CDeviceContext()
 {
 }
 
-CDeviceContext * CDeviceContext::getDeviceContext()
+CDeviceContext::~CDeviceContext()
 {
-	if (DC == nullptr)
-	{
-		DC = new CDeviceContext();
-	}
-	return DC;
+
 }
+
+//CDeviceContext * CDeviceContext::getDeviceContext()
+//{
+//	/*if (DC == nullptr)
+//	{
+//		DC = new CDeviceContext();
+//	}
+//	return DC;*/
+//}
 
 void CDeviceContext::Init()
 {

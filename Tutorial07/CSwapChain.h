@@ -18,12 +18,14 @@ struct SwapChainStruct
 class CSwapChain
 {
 private:
-	static CSwapChain * SC;
-	CSwapChain();
+	//static CSwapChain * SC;
+	
 public:
-	CSwapChain(const CSwapChain&) = delete;
+	/*CSwapChain(const CSwapChain&) = delete;
 	CSwapChain& operator=(const CSwapChain & L) = delete;
-	static CSwapChain * getSwapChain();
+	static CSwapChain * getSwapChain();*/
+	CSwapChain();
+	~CSwapChain();
 	SwapChainStruct SCS;
 #ifdef D3D11
 	IDXGISwapChain * DXSC = NULL;

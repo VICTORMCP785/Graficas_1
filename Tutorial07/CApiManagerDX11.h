@@ -26,13 +26,18 @@ public:
 	CApiManagerDX11& operator=(const CApiManagerDX11 & L) = delete;
 	static CApiManagerDX11 * getApiManagerDX11();
 
-	void initDdevice();
+	void initDevice();
+	void initSwapChain(float width, float height, HWND hWnd);
+	void initDeviceContext();
 	void CreateRenderTargetView();
 	void CreateDepthStencilTexture(float width, float height);
 	void CreateDepthStencilView();
 
 	HRESULT HR;
 	CDevice m_Device;
+	CDeviceContext m_DeviceContext;
+
+	CSwapChain m_SwapChain;
 	CRenderTarget m_DepthStencil;
 	CDepthStencilView m_DepthStencilView;
 	

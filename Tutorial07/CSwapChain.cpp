@@ -5,14 +5,19 @@ CSwapChain::CSwapChain()
 
 }
 
-CSwapChain * CSwapChain::getSwapChain()
+CSwapChain::~CSwapChain()
 {
-	if (SC == nullptr)
-	{
-		SC = new CSwapChain();
-	}
-	return SC;
+
 }
+
+//CSwapChain * CSwapChain::getSwapChain()
+//{
+//	if (SC == nullptr)
+//	{
+//		SC = new CSwapChain();
+//	}
+//	return SC;
+//}
 
 void CSwapChain::Init(SwapChainStruct SCSi)
 {
