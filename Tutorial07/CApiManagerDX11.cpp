@@ -89,3 +89,27 @@ void CApiManagerDX11::CreateDepthStencilView()
 
 }
 
+void CApiManagerDX11::SetViewPort(float width, float height)
+{
+	m_ViewPort = m_DeviceContext.setViwePort(width, height);
+}
+
+void CApiManagerDX11::CreateVertexShader()
+{
+	m_VertexShader = m_Device.CreateVertexShader();
+}
+
+void CApiManagerDX11::CreateInputLayout()
+{
+	m_Device.CreateInputLayoutDescFromVertexShaderSignature(m_VertexShader.m_pVSBlob, m_Device.m_DeviceD11, &m_VertexShader.m_pInputLayout);
+}
+
+void CApiManagerDX11::SetInputLayout()
+{
+}
+
+void CApiManagerDX11::CreatePixelShader()
+{
+	m_Device.CreatePixelShader();
+}
+

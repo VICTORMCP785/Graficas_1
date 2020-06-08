@@ -8,12 +8,11 @@
 #include "CMyCamara.h"
 #include "CMyCameraFP.h"
 #include "CRenderTargetView.h"
-#include "CVertexShader.h"
-#include "CDepthStencilView.h"
+
+//#include "CDepthStencilView.h"
 #include "CPixelShader.h"
 #include "CInputLayout.h"
 #include "CSamplerState.h"
-#include "CViewport.h"
 
 class CApiManagerDX11
 {
@@ -32,14 +31,23 @@ public:
 	void CreateRenderTargetView();
 	void CreateDepthStencilTexture(float width, float height);
 	void CreateDepthStencilView();
+	void SetViewPort(float width, float height);
+	void CreateVertexShader();
+	void CreateInputLayout();
+	void SetInputLayout();
+	void CreatePixelShader();
 
 	HRESULT HR;
+
 	CDevice m_Device;
 	CDeviceContext m_DeviceContext;
-
 	CSwapChain m_SwapChain;
+
 	CRenderTarget m_DepthStencil;
 	CDepthStencilView m_DepthStencilView;
-	
+	CViewport m_ViewPort;
+	CVertexShader m_VertexShader;
+	CPixelShader m_PixelShader;
+
 };
 

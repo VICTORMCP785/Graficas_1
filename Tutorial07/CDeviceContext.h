@@ -1,5 +1,6 @@
 #pragma once
 #include "Snake.h"
+#include "CViewport.h"
 class CDeviceContext
 {
 private:
@@ -21,5 +22,7 @@ public:
 	void Update();
 	void Destroy();
 	void Render();
+
+	CViewport setViwePort(float width, float height);
 };
 

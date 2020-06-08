@@ -3,6 +3,8 @@
 #include "resource.h"
 #include "CRenderTarget.h"
 #include "CDepthStencilView.h"
+#include "CVertexShader.h"
+#include "CPixelShader.h"
 
 struct DeviceStruct
 {
@@ -37,6 +39,13 @@ public:
 
 	CRenderTarget CreateDepthStencilTexture( float width, float height );
 	void CreateDepthStencilView( CRenderTarget depthstencil );
+
+	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
+	CVertexShader CreateVertexShader();
+
+	HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob, ID3D11Device* pD3DDevice, ID3D11InputLayout** pInputLayout);
+
+	CPixelShader CreatePixelShader();
 
 	HRESULT HR;
 
