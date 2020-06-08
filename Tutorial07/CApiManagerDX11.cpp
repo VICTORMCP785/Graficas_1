@@ -38,3 +38,18 @@ void CApiManagerDX11::initDdevice()
 #endif
 }
 
+void CApiManagerDX11::CreateRenderTargetView()
+{
+
+}
+
+void CApiManagerDX11::CreateDepthStencilTexture(float width, float height)
+{
+	m_DepthStencil = m_Device.CreateDepthStencilTexture(width, height);
+}
+
+void CApiManagerDX11::CreateDepthStencilView()
+{
+
+}
+

@@ -1,5 +1,8 @@
 #pragma once
 #include "Snake.h"
+#include "resource.h"
+#include "CRenderTarget.h"
+#include "CDepthStencilView.h"
 
 struct DeviceStruct
 {
@@ -32,8 +35,10 @@ public:
 	void Destroy();
 	void Render();
 
+	CRenderTarget CreateDepthStencilTexture( float width, float height );
+	void CreateDepthStencilView( CRenderTarget depthstencil );
 
-
+	HRESULT HR;
 
 	/*
 	void CreateRenderTargetView();

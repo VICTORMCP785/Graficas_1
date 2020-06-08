@@ -2,7 +2,18 @@
 #include "CDevice.h"
 #include "CDeviceContext.h"
 #include "CSwapChain.h"
-#include "resource.h"
+#include <vector>
+#include <iostream>
+#include <sstream>
+#include "CMyCamara.h"
+#include "CMyCameraFP.h"
+#include "CRenderTargetView.h"
+#include "CVertexShader.h"
+#include "CDepthStencilView.h"
+#include "CPixelShader.h"
+#include "CInputLayout.h"
+#include "CSamplerState.h"
+#include "CViewport.h"
 
 class CApiManagerDX11
 {
@@ -16,7 +27,14 @@ public:
 	static CApiManagerDX11 * getApiManagerDX11();
 
 	void initDdevice();
+	void CreateRenderTargetView();
+	void CreateDepthStencilTexture(float width, float height);
+	void CreateDepthStencilView();
 
+	HRESULT HR;
 	CDevice m_Device;
+	CRenderTarget m_DepthStencil;
+	CDepthStencilView m_DepthStencilView;
+	
 };
 

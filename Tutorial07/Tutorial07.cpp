@@ -100,7 +100,7 @@ CBuffer								g_NeverChange;
 CBuffer								g_ChangeOnResize;
 CBuffer								g_ChangeEveryFrame;
 CRenderTarget						g_BackBuffer;
-CRenderTarget						g_DepthStencil;
+//CRenderTarget						g_DepthStencil;
 CRenderTargetView					g_RenderTargetView;
 CDepthStencilView					g_DepthStencilView;
 CVertexShader						g_VertexShader;
@@ -397,7 +397,6 @@ HRESULT InitDevice()
 
     for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
-
         g_ApiManager->m_Device.m_DS.DriverType = g_ApiManager->m_Device.m_DS.DriverTypeArr[driverTypeIndex];
         hr = D3D11CreateDeviceAndSwapChain( NULL, (D3D_DRIVER_TYPE)g_ApiManager->m_Device.m_DS.DriverType, NULL, 
 			g_ApiManager->m_Device.m_DS.Dev_Flag, g_ApiManager->m_Device.m_DS.FeatureLevel, 
@@ -426,37 +425,18 @@ HRESULT InitDevice()
         return hr;
 
     // Create depth stencil texture
+	g_ApiManager->CreateDepthStencilTexture(width, height);
+
 #ifdef D3D11
-    RenderTargetStruct descDepth;
-    ZeroMemory( &descDepth, sizeof(descDepth) );
-    descDepth.W = width;
-    descDepth.H = height;
-    descDepth.mipLevels = 1;
-    descDepth.arraySize = 1;
-    descDepth.format = FORMAT_D24_UNORM_S8_UINT;
-    descDepth.sampleDesc.count = 1;
-    descDepth.sampleDesc.quality = 0;
-    descDepth.usage = USAGE_DEFAULT;
-    descDepth.flags = D3D11_BIND_DEPTH_STENCIL;
-    descDepth.cpuAccessFlags = 0;
-    descDepth.miscFlags = 0;
-
-
-	g_DepthStencil.Init(descDepth);
-
-    hr = g_ApiManager->m_Device.m_DeviceD11->CreateTexture2D( &g_DepthStencil.Texture2DDesc, NULL, &g_DepthStencil.Texture2D );
-    if( FAILED( hr ) )
-        return hr;
-
     // Create the depth stencil view
     DepthStencilViewStruct structDepthStencilView;
     ZeroMemory( &structDepthStencilView, sizeof(structDepthStencilView) );
-	structDepthStencilView.format = g_DepthStencil.RTS.format;
+	structDepthStencilView.format = g_ApiManager->m_DepthStencil.RTS.format;
 	structDepthStencilView.viewDimension = DSV_DIMENSION_TEXTURE2D;
 	structDepthStencilView.texture2D.mipSlice = 0;
-	g_DepthStencilView.Init(structDepthStencilView, (FORMAT)g_DepthStencil.Texture2DDesc.Format);
+	g_DepthStencilView.Init(structDepthStencilView, (FORMAT)g_ApiManager->m_DepthStencil.Texture2DDesc.Format);
 
-    hr = g_ApiManager->m_Device.m_DeviceD11->CreateDepthStencilView(g_DepthStencil.Texture2D, &g_DepthStencilView.descDSV, &g_DepthStencilView.DepthStencilView );
+    hr = g_ApiManager->m_Device.m_DeviceD11->CreateDepthStencilView(g_ApiManager->m_DepthStencil.Texture2D, &g_DepthStencilView.descDSV, &g_DepthStencilView.DepthStencilView );
     if( FAILED( hr ) )
         return hr;
 #endif
@@ -468,8 +448,6 @@ HRESULT InitDevice()
     vp.MaxDepth = 1.0f;
     vp.TopLeftX = 0;
     vp.TopLeftY = 0;
-
-
 	CViewport tempVP;
 	tempVP.Init(vp);
 #ifdef D3D11
@@ -815,7 +793,7 @@ void CleanupDevice()
     if(g_InputLayout.InputLayout) g_InputLayout.InputLayout->Release();
     if(g_VertexShader.VertexShader) g_VertexShader.VertexShader->Release();
     if(g_PixelShader.PixelShader) g_PixelShader.PixelShader->Release();
-    if( g_DepthStencil.Texture2D ) g_DepthStencil.Texture2D->Release();
+    if(g_ApiManager->m_DepthStencil.Texture2D ) g_ApiManager->m_DepthStencil.Texture2D->Release();
     if( g_DepthStencilView.DepthStencilView ) g_DepthStencilView.DepthStencilView->Release();
     if( g_RenderTargetView.RenderTargetView ) g_RenderTargetView.RenderTargetView->Release();
     if(g_SwapChain->DXSC) g_SwapChain->DXSC->Release();
@@ -924,7 +902,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				h = g_ApiManager->m_Device.m_DeviceD11->CreateRenderTargetView(tempBack.BufferD11, NULL, &g_RenderTargetView.RenderTargetView);
 				tempBack.BufferD11->Release();
 
-				g_DepthStencil.Texture2D->Release();
+				g_ApiManager->m_DepthStencil.Texture2D->Release();
 				RenderTargetStruct DepthDesc;
 				DepthDesc.W = width;
 				DepthDesc.H = height;
@@ -938,20 +916,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				DepthDesc.cpuAccessFlags = 0;
 				DepthDesc.miscFlags = 0;
 
-				g_DepthStencil.Init(DepthDesc);
+				g_ApiManager->m_DepthStencil.Init(DepthDesc);
 
-				h = g_ApiManager->m_Device.m_DeviceD11->CreateTexture2D(&g_DepthStencil.Texture2DDesc, NULL, &g_DepthStencil.Texture2D);
+				h = g_ApiManager->m_Device.m_DeviceD11->CreateTexture2D(&g_ApiManager->m_DepthStencil.Texture2DDesc, NULL, &g_ApiManager->m_DepthStencil.Texture2D);
 
 				DepthStencilViewStruct DSV;
-				DSV.format = g_DepthStencil.RTS.format;
+				DSV.format = g_ApiManager->m_DepthStencil.RTS.format;
 				DSV.viewDimension = DSV_DIMENSION_TEXTURE2D;
 				DSV.texture2D.mipSlice = 0;
 
 				g_DepthStencilView.DepthStencilView->Release();
 
-				g_DepthStencilView.Init(DSV, (FORMAT)g_DepthStencil.Texture2DDesc.Format);
+				g_DepthStencilView.Init(DSV, (FORMAT)g_ApiManager->m_DepthStencil.Texture2DDesc.Format);
 
-				h = g_ApiManager->m_Device.m_DeviceD11->CreateDepthStencilView(g_DepthStencil.Texture2D, &g_DepthStencilView.descDSV, &g_DepthStencilView.DepthStencilView);
+				h = g_ApiManager->m_Device.m_DeviceD11->CreateDepthStencilView(g_ApiManager->m_DepthStencil.Texture2D, &g_DepthStencilView.descDSV, &g_DepthStencilView.DepthStencilView);
 
 				g_DeviceContext->m_DeviceContext->OMSetRenderTargets(1, &g_RenderTargetView.RenderTargetView, g_DepthStencilView.DepthStencilView);
 
