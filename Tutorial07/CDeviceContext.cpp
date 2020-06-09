@@ -51,3 +51,8 @@ CViewport CDeviceContext::setViwePort(float width, float height)
 
 	return VP;
 }
+
+void CDeviceContext::SetInputLayout(CVertexShader Vs)
+{
+	m_DeviceContext->IASetInputLayout(Vs.m_pInputLayout);
+}

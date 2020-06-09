@@ -1,6 +1,7 @@
 #pragma once
 #include "Snake.h"
 #include "CViewport.h"
+#include "CVertexShader.h"
 class CDeviceContext
 {
 private:
@@ -24,5 +25,6 @@ public:
 	void Render();
 
 	CViewport setViwePort(float width, float height);
+	void SetInputLayout(CVertexShader Vs);
 };
 

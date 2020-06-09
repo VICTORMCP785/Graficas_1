@@ -106,10 +106,11 @@ void CApiManagerDX11::CreateInputLayout()
 
 void CApiManagerDX11::SetInputLayout()
 {
+	m_DeviceContext.SetInputLayout(m_VertexShader);
 }
 
 void CApiManagerDX11::CreatePixelShader()
 {
-	m_Device.CreatePixelShader();
+	m_PixelShader = m_Device.CreatePixelShader();
 }
 
