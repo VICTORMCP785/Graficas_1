@@ -1,4 +1,5 @@
 #include "CDeviceContext.h"
+#include "CDevice.h"
 
 CDeviceContext::CDeviceContext()
 {
@@ -55,4 +56,21 @@ CViewport CDeviceContext::setViwePort(float width, float height)
 void CDeviceContext::SetInputLayout(CVertexShader Vs)
 {
 	m_DeviceContext->IASetInputLayout(Vs.m_pInputLayout);
+}
+
+void CDeviceContext::SetVertexBuffer(CBuffer VB)
+{
+	UINT stride = sizeof(SimpleVertex);
+	UINT offset = 0;
+	m_DeviceContext->IASetVertexBuffers(0, 1, &VB.VertexBufferD11, &stride, &offset);
+}
+
+void CDeviceContext::SetIndexBuffer(CBuffer IB)
+{
+	m_DeviceContext->IASetIndexBuffer(IB.IndexBufferD11, DXGI_FORMAT_R16_UINT, 0);
+}
+
+void CDeviceContext::SetprimitiveTopology()
+{
+	m_DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }

@@ -1,10 +1,10 @@
 #include "CRenderTarget.h"
 
-CRenderTarget::CRenderTarget()
+CTexture2D::CTexture2D()
 {
 }
 
-void CRenderTarget::Init(RenderTargetStruct S)
+void CTexture2D::Init(Texture2DStruct S)
 {
 	RTS = S;
 #ifdef D3D11
@@ -24,14 +24,14 @@ void CRenderTarget::Init(RenderTargetStruct S)
 #endif
 }
 
-void CRenderTarget::Update()
+void CTexture2D::Update()
 {
 }
 
-void CRenderTarget::Destroy()
+void CTexture2D::Destroy()
 {
 }
 
-void CRenderTarget::Render()
+void CTexture2D::Render()
 {
 }

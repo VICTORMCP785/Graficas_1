@@ -1,6 +1,6 @@
 #pragma once
 #include "Snake.h"
-struct RenderTargetStruct
+struct Texture2DStruct
 {
 #ifdef D3D11
 	unsigned int W;
@@ -15,18 +15,18 @@ struct RenderTargetStruct
 	unsigned int miscFlags;
 #endif
 };
-class CRenderTarget
+class CTexture2D
 {
 private:
 
 public:
-	CRenderTarget();
-	RenderTargetStruct RTS;
+	CTexture2D();
+	Texture2DStruct RTS;
 #ifdef D3D11
-	ID3D11Texture2D * Texture2D = NULL;
 	D3D11_TEXTURE2D_DESC Texture2DDesc;
+	ID3D11Texture2D * Texture2D = NULL;
 #endif
-	void Init(RenderTargetStruct RTSi);
+	void Init(Texture2DStruct RTSi);
 	void Update();
 	void Destroy();
 	void Render();

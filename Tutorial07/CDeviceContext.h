@@ -2,6 +2,7 @@
 #include "Snake.h"
 #include "CViewport.h"
 #include "CVertexShader.h"
+#include "Buffer.h"
 class CDeviceContext
 {
 private:
@@ -26,5 +27,8 @@ public:
 
 	CViewport setViwePort(float width, float height);
 	void SetInputLayout(CVertexShader Vs);
+	void SetVertexBuffer(CBuffer VB);
+	void SetIndexBuffer(CBuffer IB);
+	void SetprimitiveTopology();
 };
 

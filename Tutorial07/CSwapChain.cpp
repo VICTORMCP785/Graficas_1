@@ -51,3 +51,14 @@ void CSwapChain::Render()
 {
 
 }
+
+CTexture2D CSwapChain::getbuffer()
+{
+	CTexture2D backbuffer;
+	HRESULT hr = DXSC->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backbuffer.Texture2D);
+	if (FAILED(hr))
+	{
+
+	}
+	return backbuffer;
+}

@@ -36,11 +36,22 @@ void CDevice::Render()
 
 }
 
-CRenderTarget CDevice::CreateDepthStencilTexture(float width, float height)
+CRenderTargetView CDevice::CreateRenderTargetView(CTexture2D bb)
+{
+	CRenderTargetView RTV;
+	HR = m_DeviceD11->CreateRenderTargetView(bb.Texture2D, NULL, &RTV.RenderTargetView);
+	if (FAILED(HR))
+	{
+
+	}
+	return RTV;
+}
+
+CTexture2D CDevice::CreateDepthStencilTexture(float width, float height)
 {
 #ifdef D3D11
-	RenderTargetStruct descDepth;
-	CRenderTarget DST;
+	Texture2DStruct descDepth;
+	CTexture2D DST;
 	ZeroMemory(&descDepth, sizeof(descDepth));
 	descDepth.W = width;
 	descDepth.H = height;
@@ -60,10 +71,22 @@ CRenderTarget CDevice::CreateDepthStencilTexture(float width, float height)
 #endif
 }
 
-void CDevice::CreateDepthStencilView(CRenderTarget depthstencil)
+CDepthStencilView CDevice::CreateDepthStencilView(CTexture2D depthstencil)
 {
-	
+	DepthStencilViewStruct structDepthStencilView;
+	CDepthStencilView DSV;
+	ZeroMemory(&structDepthStencilView, sizeof(structDepthStencilView));
+	structDepthStencilView.format = depthstencil.RTS.format;
+	structDepthStencilView.viewDimension = DSV_DIMENSION_TEXTURE2D;
+	structDepthStencilView.texture2D.mipSlice = 0;
+	DSV.Init(structDepthStencilView, (FORMAT)depthstencil.Texture2DDesc.Format);
 
+	HR = m_DeviceD11->CreateDepthStencilView(depthstencil.Texture2D, &DSV.descDSV, &DSV.DepthStencilView);
+	if (FAILED(HR))
+	{
+		//F
+	}
+	return DSV;
 }
 
 HRESULT CDevice::CompileShaderFromFile(WCHAR * szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob ** ppBlobOut)
@@ -188,4 +211,108 @@ CPixelShader CDevice::CreatePixelShader()
 	HR = m_DeviceD11->CreatePixelShader(PS.pPSBlob->GetBufferPointer(), PS.pPSBlob->GetBufferSize(), NULL, &PS.PixelShader);
 	PS.pPSBlob->Release();
 	return PS;
+}
+
+CBuffer CDevice::CreateVertexBuffer()
+{
+	SimpleVertex vertices[] =
+	{
+		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+
+		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+
+		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+
+		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+
+		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(0.0f, 1.0f) },
+
+		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+	};
+	BufferStruct bd;//buffer parte del vertex
+	CBuffer VB;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.usage = USAGE_DEFAULT;
+	bd.byteWidth = sizeof(SimpleVertex) * 24;
+	bd.bindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.cpuAccessFlags = 0;
+	SubresourceData subrsrcData;
+	subrsrcData.psysMem = vertices;
+	VB.Init(subrsrcData, bd);
+	HR = m_DeviceD11->CreateBuffer(&VB.BufferDesc, &VB.SUBDATA, &VB.VertexBufferD11);
+	return VB;
+}
+
+CBuffer CDevice::CreateIndexBuffer()
+{
+	WORD indices[] =
+	{
+		3,1,0,
+		2,1,3,
+
+		6,4,5,
+		7,4,6,
+
+		11,9,8,
+		10,9,11,
+
+		14,12,13,
+		15,12,14,
+
+		19,17,16,
+		18,17,19,
+
+		22,20,21,
+		23,20,22
+	};
+	BufferStruct bd;
+	CBuffer IB;
+	bd.usage = USAGE_DEFAULT;
+	bd.byteWidth = sizeof(WORD) * 36;
+	bd.bindFlags = D3D11_BIND_INDEX_BUFFER;
+	bd.cpuAccessFlags = 0;
+	SubresourceData IDS;
+	IDS.psysMem = indices;
+	IB.Init(IDS, bd);
+
+	HR = m_DeviceD11->CreateBuffer(&IB.BufferDesc, &IB.SUBDATA, &IB.IndexBufferD11);
+
+	return IB;
+}
+
+CSamplerState CDevice::CreateSamplerState()
+{
+	SamplerStateStruct samplerDsc;
+	CSamplerState SL;
+	ZeroMemory(&samplerDsc, sizeof(samplerDsc));
+	samplerDsc.filter = FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDsc.addresU = TEXTURE_ADDRESS_WRAP;
+	samplerDsc.addresV = TEXTURE_ADDRESS_WRAP;
+	samplerDsc.addresW = TEXTURE_ADDRESS_WRAP;
+	samplerDsc.comparisonFunc = COMPARISON_NEVER;
+	samplerDsc.minLOD = 0;
+	samplerDsc.maxLOD = D3D11_FLOAT32_MAX;
+
+	SL.Init(samplerDsc);
+
+	m_DeviceD11->CreateSamplerState(&SL.Desc, &SL.SamplerStates);
+	return SL;
 }

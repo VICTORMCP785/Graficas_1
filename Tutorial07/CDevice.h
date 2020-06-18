@@ -2,9 +2,17 @@
 #include "Snake.h"
 #include "resource.h"
 #include "CRenderTarget.h"
+#include "CRenderTargetView.h"
 #include "CDepthStencilView.h"
 #include "CVertexShader.h"
 #include "CPixelShader.h"
+#include "Buffer.h"
+#include "CSamplerState.h"
+#include "glm/vec3.hpp"
+#include "glm/vec2.hpp"
+#include "glm/vec4.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/mat4x4.hpp"
 
 struct DeviceStruct
 {
@@ -16,6 +24,13 @@ struct DeviceStruct
 	UINT numFeatureLevel;
 #endif
 };
+
+struct SimpleVertex
+{
+	glm::vec3 Pos;
+	glm::vec2 Tex;
+};
+
 
 class CDevice
 {
@@ -37,25 +52,19 @@ public:
 	void Destroy();
 	void Render();
 
-	CRenderTarget CreateDepthStencilTexture( float width, float height );
-	void CreateDepthStencilView( CRenderTarget depthstencil );
-
+	CRenderTargetView CreateRenderTargetView(CTexture2D bb);
+	CTexture2D CreateDepthStencilTexture( float width, float height );
+	CDepthStencilView CreateDepthStencilView(CTexture2D depthstencil );
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	CVertexShader CreateVertexShader();
-
 	HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob, ID3D11Device* pD3DDevice, ID3D11InputLayout** pInputLayout);
-
 	CPixelShader CreatePixelShader();
+	CBuffer CreateVertexBuffer();
+	CBuffer CreateIndexBuffer();
+	CSamplerState CreateSamplerState();
 
 	HRESULT HR;
 
-	/*
-	void CreateRenderTargetView();
-	void CreateDepthStencilTexture();
-	void CreateDepthStencilView();
-	void CreaateVertexShader();
-	void CreateInputLayout();
-	void CreatePixelShader();
-	void CreateVertexBuffer();*/
+	
 };
 

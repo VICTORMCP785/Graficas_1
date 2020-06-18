@@ -28,6 +28,7 @@ public:
 	void initDevice();
 	void initSwapChain(float width, float height, HWND hWnd);
 	void initDeviceContext();
+	void GetBuffer();
 	void CreateRenderTargetView();
 	void CreateDepthStencilTexture(float width, float height);
 	void CreateDepthStencilView();
@@ -36,18 +37,30 @@ public:
 	void CreateInputLayout();
 	void SetInputLayout();
 	void CreatePixelShader();
+	void CreateVertexbuffer();
+	void SetVertexBuffer();
+	void CreateIndexBuffer();
+	void SetIndexBuffer();
+	void SetPrimitiveTopology();
+	void CreateSamplerState();
 
 	HRESULT HR;
 
 	CDevice m_Device;
 	CDeviceContext m_DeviceContext;
 	CSwapChain m_SwapChain;
-
-	CRenderTarget m_DepthStencil;
+	CRenderTargetView m_RendertargetView;
+	CTexture2D m_DepthStencil;
 	CDepthStencilView m_DepthStencilView;
 	CViewport m_ViewPort;
 	CVertexShader m_VertexShader;
 	CPixelShader m_PixelShader;
+	CTexture2D m_BackBuffer;
+	CBuffer m_VertexBuffer;
+	CBuffer m_IndexBuffer;
+	CSamplerState m_SamplerLinear;
+	
+	//CBuffer m_BackBuffer;
 
 };
 

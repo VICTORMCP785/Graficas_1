@@ -74,9 +74,15 @@ void CApiManagerDX11::initDeviceContext()
 	}
 }
 
+void CApiManagerDX11::GetBuffer()
+{
+	m_BackBuffer = m_SwapChain.getbuffer();
+}
+
 void CApiManagerDX11::CreateRenderTargetView()
 {
-
+	m_RendertargetView = m_Device.CreateRenderTargetView(m_BackBuffer);
+	m_BackBuffer.Texture2D->Release();
 }
 
 void CApiManagerDX11::CreateDepthStencilTexture(float width, float height)
@@ -86,7 +92,7 @@ void CApiManagerDX11::CreateDepthStencilTexture(float width, float height)
 
 void CApiManagerDX11::CreateDepthStencilView()
 {
-
+	m_DepthStencilView = m_Device.CreateDepthStencilView(m_DepthStencil);
 }
 
 void CApiManagerDX11::SetViewPort(float width, float height)
@@ -112,5 +118,35 @@ void CApiManagerDX11::SetInputLayout()
 void CApiManagerDX11::CreatePixelShader()
 {
 	m_PixelShader = m_Device.CreatePixelShader();
+}
+
+void CApiManagerDX11::CreateVertexbuffer()
+{
+	m_VertexBuffer = m_Device.CreateVertexBuffer();
+}
+
+void CApiManagerDX11::SetVertexBuffer()
+{
+	m_DeviceContext.SetVertexBuffer(m_VertexBuffer);
+}
+
+void CApiManagerDX11::CreateIndexBuffer()
+{
+	m_IndexBuffer = m_Device.CreateIndexBuffer();
+}
+
+void CApiManagerDX11::SetIndexBuffer()
+{
+	m_DeviceContext.SetIndexBuffer(m_IndexBuffer);
+}
+
+void CApiManagerDX11::SetPrimitiveTopology()
+{
+	m_DeviceContext.SetprimitiveTopology();
+}
+
+void CApiManagerDX11::CreateSamplerState()
+{
+	m_SamplerLinear = m_Device.CreateSamplerState();
 }
 

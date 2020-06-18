@@ -1,5 +1,7 @@
 #pragma once
 #include "Snake.h"
+#include "Buffer.h"
+#include "CRenderTarget.h"
 
 struct SwapChainStruct
 {
@@ -35,5 +37,7 @@ public:
 	void Update();
 	void Destroy();
 	void Render();
+
+	CTexture2D getbuffer();
 };
 
