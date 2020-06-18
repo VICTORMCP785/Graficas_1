@@ -6,6 +6,7 @@
 #include "CDepthStencilView.h"
 #include "CVertexShader.h"
 #include "CPixelShader.h"
+#include "CInputLayout.h"
 #include "Buffer.h"
 #include "CSamplerState.h"
 #include "glm/vec3.hpp"
@@ -57,7 +58,7 @@ public:
 	CDepthStencilView CreateDepthStencilView(CTexture2D depthstencil );
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	CVertexShader CreateVertexShader();
-	HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob, ID3D11Device* pD3DDevice, ID3D11InputLayout** pInputLayout);
+	CInputLayout CreateInputLayoutDesc(ID3DBlob* pShaderBlob, ID3D11Device* pD3DDevice, ID3D11InputLayout** pInputLayout);
 	CPixelShader CreatePixelShader();
 	CBuffer CreateVertexBuffer();
 	CBuffer CreateIndexBuffer();

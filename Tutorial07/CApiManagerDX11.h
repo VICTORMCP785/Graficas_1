@@ -59,6 +59,7 @@ public:
 	CBuffer m_VertexBuffer;
 	CBuffer m_IndexBuffer;
 	CSamplerState m_SamplerLinear;
+	CInputLayout m_inputlayout;
 	
 	//CBuffer m_BackBuffer;
 

@@ -107,7 +107,7 @@ void CApiManagerDX11::CreateVertexShader()
 
 void CApiManagerDX11::CreateInputLayout()
 {
-	m_Device.CreateInputLayoutDescFromVertexShaderSignature(m_VertexShader.m_pVSBlob, m_Device.m_DeviceD11, &m_VertexShader.m_pInputLayout);
+	m_inputlayout = m_Device.CreateInputLayoutDesc(m_VertexShader.m_pVSBlob, m_Device.m_DeviceD11, &m_VertexShader.m_pInputLayout);
 }
 
 void CApiManagerDX11::SetInputLayout()
