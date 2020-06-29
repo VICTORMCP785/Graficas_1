@@ -38,6 +38,7 @@ void CDevice::Render()
 
 CRenderTargetView CDevice::CreateRenderTargetView(CTexture2D bb)
 {
+#ifdef D3D11
 	CRenderTargetView RTV;
 	HR = m_DeviceD11->CreateRenderTargetView(bb.Texture2D, NULL, &RTV.RenderTargetView);
 	if (FAILED(HR))
@@ -45,6 +46,7 @@ CRenderTargetView CDevice::CreateRenderTargetView(CTexture2D bb)
 
 	}
 	return RTV;
+#endif
 }
 
 CTexture2D CDevice::CreateDepthStencilTexture(float width, float height)
@@ -73,6 +75,7 @@ CTexture2D CDevice::CreateDepthStencilTexture(float width, float height)
 
 CDepthStencilView CDevice::CreateDepthStencilView(CTexture2D depthstencil)
 {
+#ifdef D3D11
 	DepthStencilViewStruct structDepthStencilView;
 	CDepthStencilView DSV;
 	ZeroMemory(&structDepthStencilView, sizeof(structDepthStencilView));
@@ -87,10 +90,12 @@ CDepthStencilView CDevice::CreateDepthStencilView(CTexture2D depthstencil)
 		//F
 	}
 	return DSV;
+#endif
 }
 
 HRESULT CDevice::CompileShaderFromFile(WCHAR * szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob ** ppBlobOut)
 {
+#ifdef D3D11
 	HRESULT hr = S_OK;
 
 	DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -115,10 +120,12 @@ HRESULT CDevice::CompileShaderFromFile(WCHAR * szFileName, LPCSTR szEntryPoint, 
 	if (pErrorBlob) pErrorBlob->Release();
 
 	return S_OK;
+#endif
 }
 
 CVertexShader CDevice::CreateVertexShader()
 {
+#ifdef D3D11
 	CVertexShader vs;
 	HR = CompileShaderFromFile(L"Tutorial07.fx", "VS", "vs_4_0", &vs.m_pVSBlob);
 
@@ -129,10 +136,12 @@ CVertexShader CDevice::CreateVertexShader()
 		return vs;
 	}
 	return vs;
+#endif
 }
 
 CInputLayout CDevice::CreateInputLayoutDesc(ID3DBlob * pShaderBlob, ID3D11Device * pD3DDevice, ID3D11InputLayout ** pInputLayout)
 {
+#ifdef D3D11
 	InputLayoutStruct ILStruct;
 	CInputLayout IL;
 	ILStruct.pD3DDevice = pD3DDevice;
@@ -143,10 +152,12 @@ CInputLayout CDevice::CreateInputLayoutDesc(ID3DBlob * pShaderBlob, ID3D11Device
 	IL.CreateInputLayoutDescFromVertexShaderSignature();
 
 	return IL;
+#endif
 }
 
 CPixelShader CDevice::CreatePixelShader()
 {
+#ifdef D3D11
 	CPixelShader PS;
 	HR = CompileShaderFromFile(L"Tutorial07.fx", "PS", "ps_4_0", &PS.pPSBlob);
 	if (FAILED(HR))
@@ -157,10 +168,12 @@ CPixelShader CDevice::CreatePixelShader()
 	HR = m_DeviceD11->CreatePixelShader(PS.pPSBlob->GetBufferPointer(), PS.pPSBlob->GetBufferSize(), NULL, &PS.PixelShader);
 	PS.pPSBlob->Release();
 	return PS;
+#endif
 }
 
 CBuffer CDevice::CreateVertexBuffer()
 {
+#ifdef D3D11
 	SimpleVertex vertices[] =
 	{
 		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
@@ -205,10 +218,12 @@ CBuffer CDevice::CreateVertexBuffer()
 	VB.Init(subrsrcData, bd);
 	HR = m_DeviceD11->CreateBuffer(&VB.BufferDesc, &VB.SUBDATA, &VB.VertexBufferD11);
 	return VB;
+#endif
 }
 
 CBuffer CDevice::CreateIndexBuffer()
 {
+#ifdef D3D11
 	WORD indices[] =
 	{
 		3,1,0,
@@ -242,10 +257,12 @@ CBuffer CDevice::CreateIndexBuffer()
 	HR = m_DeviceD11->CreateBuffer(&IB.BufferDesc, &IB.SUBDATA, &IB.IndexBufferD11);
 
 	return IB;
+#endif
 }
 
 CSamplerState CDevice::CreateSamplerState()
 {
+#ifdef D3D11
 	SamplerStateStruct samplerDsc;
 	CSamplerState SL;
 	ZeroMemory(&samplerDsc, sizeof(samplerDsc));
@@ -261,4 +278,5 @@ CSamplerState CDevice::CreateSamplerState()
 
 	m_DeviceD11->CreateSamplerState(&SL.Desc, &SL.SamplerStates);
 	return SL;
+#endif
 }

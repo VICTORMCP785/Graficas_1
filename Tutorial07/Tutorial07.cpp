@@ -84,20 +84,8 @@ glm::mat4                           g_World;
 DRIVER_TYPE							g_driverType = DRIVER_TYPE_NULL; 
 glm::mat4                           g_View;
 glm::mat4                           g_Projection;
-//CBuffer								g_VertexBuffer;
-//CBuffer								g_IndexBuffer;
-//CBuffer								g_NeverChange;
-//CBuffer								g_ChangeOnResize;
-//CBuffer								g_ChangeEveryFrame;
-//CTexture2D							g_BackBuffer;
-//CRenderTargetView					g_RenderTargetView;
-//CDepthStencilView					g_DepthStencilView;
-//CInputLayout						g_InputLayout;
-//CSamplerState						g_SamplerState;
-//CViewport							g_Viewport;
 CMyCamara *							ActiveCamara = NULL;
 CMyCamara *							InactiveCamara = NULL;
-
 CApiManagerDX11*					g_ApiManager = CApiManagerDX11::getApiManagerDX11();
 
 //--------------------------------------------------------------------------------------
@@ -187,9 +175,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			std::string RZ(sc.str());
 			ImGui::Text("Far:");
 			ImGui::Text(RY.c_str());
-			//ImGui::Text("Rotacion:");
-			//ImGui::Text(Rotacion.c_str());
-			//ImGui::Text("Hola Mundo \n salto de linea");
 			ImGui::GetIO().FontGlobalScale;
 
 			ImGui::End();
