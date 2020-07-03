@@ -34,6 +34,8 @@ void CSwapChain::Init(SwapChainStruct SCSi)
 	SwapChainDesc.SampleDesc.Count = SCSi.count;
 	SwapChainDesc.SampleDesc.Quality = SCSi.quality;
 	SwapChainDesc.Windowed = SCSi.windowed;
+#elif OPENGL
+
 #endif
 }
 
@@ -62,5 +64,9 @@ CTexture2D CSwapChain::getbuffer()
 
 	}
 	return backbuffer;
+#elif OPENGL
+
+#else
+	return CTexture2D();
 #endif
 }

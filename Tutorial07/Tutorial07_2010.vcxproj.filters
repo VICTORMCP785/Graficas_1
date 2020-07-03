@@ -120,6 +120,7 @@
       <Filter>Parcial 2\Imgui</Filter>
     </ClCompile>
     <ClCompile Include="CApiManagerDX11.cpp" />
+    <ClCompile Include="CMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -212,5 +213,6 @@
       <Filter>Parcial 2\Imgui</Filter>
     </ClInclude>
     <ClInclude Include="CApiManagerDX11.h" />
+    <ClInclude Include="CMesh.h" />
   </ItemGroup>
 </Project>
