@@ -4,19 +4,9 @@
 #include "resource.h"
 #include "CMyCamara.h"
 #include "CMyCameraFP.h"
-//#include "CDevice.h"
-//#include "CDeviceContext.h"
-//#include "CSwapChain.h"
-//#include "VertexBuffer.h"
-//#include "CIndexBuffer.h"
-#include "CRenderTarget.h"
-#include "CRenderTargetView.h"
-#include "CVertexShader.h"
 #include "CDepthStencilView.h"
-#include "CPixelShader.h"
 #include "CInputLayout.h"
 #include "CSamplerState.h"
-//#include "CViewport.h"
 
 #include "CApiManagerDX11.h"
 
@@ -62,12 +52,7 @@ glm::vec3 Laberinto_Array[23]
 //--------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------
-//CDevice * CDevice::D = nullptr;
 CApiManagerDX11 * CApiManagerDX11::ApiManagerDX11 = nullptr;
-//CSwapChain * CSwapChain::SC = nullptr;
-//CDeviceContext * CDeviceContext::DC = nullptr;
-
-
 HINSTANCE                           g_hInst = NULL;
 HWND                                g_hWnd = NULL;
 #ifdef D3D11
@@ -362,16 +347,6 @@ HRESULT InitDevice()
 #endif
 	// Create the sample state
 	SamplerStateStruct samplerDsc;
-	/*ZeroMemory(&samplerDsc, sizeof(samplerDsc));
-	samplerDsc.filter = FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDsc.addresU = TEXTURE_ADDRESS_WRAP;
-	samplerDsc.addresV = TEXTURE_ADDRESS_WRAP;
-	samplerDsc.addresW = TEXTURE_ADDRESS_WRAP;
-	samplerDsc.comparisonFunc = COMPARISON_NEVER;
-	samplerDsc.minLOD = 0;
-	samplerDsc.maxLOD = D3D11_FLOAT32_MAX;
-
-	g_SamplerState.Init(samplerDsc);*/
 	g_ApiManager->CreateSamplerState();
 	// Initialize the world matrix
 	g_World = glm::mat4(1.0f);
@@ -494,7 +469,6 @@ void CleanupDevice()
     if( g_pTextureRV ) g_pTextureRV->Release();
     if(g_ApiManager->m_VertexBuffer.VertexBufferD11 ) g_ApiManager->m_VertexBuffer.VertexBufferD11->Release();
     if(g_ApiManager->m_IndexBuffer.IndexBufferD11 ) g_ApiManager->m_IndexBuffer.IndexBufferD11->Release();
-    //if(g_InputLayout.InputLayout) g_InputLayout.InputLayout->Release();
     if(g_ApiManager->m_VertexShader.VertexShader) g_ApiManager->m_VertexShader.VertexShader->Release();
     if(g_ApiManager->m_PixelShader.PixelShader) g_ApiManager->m_PixelShader.PixelShader->Release();
     if(g_ApiManager->m_DepthStencil.Texture2D ) g_ApiManager->m_DepthStencil.Texture2D->Release();
