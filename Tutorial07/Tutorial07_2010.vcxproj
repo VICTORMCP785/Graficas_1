@@ -877,7 +877,9 @@
     <ClCompile Include="CDeviceContext.cpp" />
     <ClCompile Include="CIndexBuffer.cpp" />
     <ClCompile Include="CInputLayout.cpp" />
+    <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMesh.cpp" />
+    <ClCompile Include="CModelo.cpp" />
     <ClCompile Include="CMyCamara.cpp" />
     <ClCompile Include="CMyCameraFP.cpp" />
     <ClCompile Include="CPixelShader.cpp" />
@@ -885,6 +887,7 @@
     <ClCompile Include="CRenderTargetView.cpp" />
     <ClCompile Include="CSamplerState.cpp" />
     <ClCompile Include="CSwapChain.cpp" />
+    <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="CVertexShader.cpp" />
     <ClCompile Include="CViewport.cpp" />
     <ClCompile Include="Tutorial07.cpp" />
@@ -909,7 +912,9 @@
     <ClInclude Include="CDeviceContext.h" />
     <ClInclude Include="CIndexBuffer.h" />
     <ClInclude Include="CInputLayout.h" />
+    <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMesh.h" />
+    <ClInclude Include="CModelo.h" />
     <ClInclude Include="CMyCamara.h" />
     <ClInclude Include="CMyCameraFP.h" />
     <ClInclude Include="CPixelShader.h" />
@@ -917,6 +922,7 @@
     <ClInclude Include="CRenderTargetView.h" />
     <ClInclude Include="CSamplerState.h" />
     <ClInclude Include="CSwapChain.h" />
+    <ClInclude Include="CTransform.h" />
     <ClInclude Include="CVertexShader.h" />
     <ClInclude Include="CViewport.h" />
     <CLInclude Include="resource.h" />

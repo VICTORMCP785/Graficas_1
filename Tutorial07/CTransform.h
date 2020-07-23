@@ -11,11 +11,21 @@ public:
 	CTransform();
 	~CTransform();
 
-	glm::vec3 D;
+	glm::vec3 m_Posicion;
+	glm::vec3 m_Rotacion;
+	glm::vec3 m_Escala;
 
 	void init();
 	void Update();
 	void Destroy();
 	void Render();
+
+	void SetVecD();
+	void SetVecF();
+	void SetVecG();
+
+	//VARIABLES
+	//funcion set y get de cada 1
+	//funcion get matrix genera y regresa la matrix
 };
 

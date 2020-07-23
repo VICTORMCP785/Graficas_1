@@ -464,7 +464,6 @@ void CleanupDevice()
 {
 #ifdef D3D11
     if( g_ApiManager->m_DeviceContext.m_DeviceContext ) g_ApiManager->m_DeviceContext.m_DeviceContext->ClearState();
-
     if(g_ApiManager->m_SamplerLinear.SamplerStates) g_ApiManager->m_SamplerLinear.SamplerStates->Release();
     if( g_pTextureRV ) g_pTextureRV->Release();
     if(g_ApiManager->m_VertexBuffer.VertexBufferD11 ) g_ApiManager->m_VertexBuffer.VertexBufferD11->Release();

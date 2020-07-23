@@ -51,6 +51,9 @@
     <Filter Include="Parcial 2\Imgui">
       <UniqueIdentifier>{109b6609-8df0-4bdb-b040-78b144c8b860}</UniqueIdentifier>
     </Filter>
+    <Filter Include="F">
+      <UniqueIdentifier>{4987e200-c479-48ac-9bf8-f1ebd1922e51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -120,7 +123,14 @@
       <Filter>Parcial 2\Imgui</Filter>
     </ClCompile>
     <ClCompile Include="CApiManagerDX11.cpp" />
-    <ClCompile Include="CMesh.cpp" />
+    <ClCompile Include="CMesh.cpp">
+      <Filter>F</Filter>
+    </ClCompile>
+    <ClCompile Include="CTransform.cpp">
+      <Filter>F</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterial.cpp" />
+    <ClCompile Include="CModelo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -213,6 +223,13 @@
       <Filter>Parcial 2\Imgui</Filter>
     </ClInclude>
     <ClInclude Include="CApiManagerDX11.h" />
-    <ClInclude Include="CMesh.h" />
+    <ClInclude Include="CMesh.h">
+      <Filter>F</Filter>
+    </ClInclude>
+    <ClInclude Include="CTransform.h">
+      <Filter>F</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterial.h" />
+    <ClInclude Include="CModelo.h" />
   </ItemGroup>
 </Project>
