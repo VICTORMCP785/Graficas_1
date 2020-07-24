@@ -1,5 +1,6 @@
 #include "CDeviceContext.h"
 #include "CDevice.h"
+#include "CMesh.h"
 
 CDeviceContext::CDeviceContext()
 {
@@ -62,12 +63,12 @@ void CDeviceContext::SetInputLayout(CVertexShader Vs)
 #endif
 }
 
-void CDeviceContext::SetVertexBuffer(CBuffer VB)
+void CDeviceContext::SetVertexBuffer(CBuffer mesh)
 {
 #ifdef D3D11
 	UINT stride = sizeof(SimpleVertex);
 	UINT offset = 0;
-	m_DeviceContext->IASetVertexBuffers(0, 1, &VB.VertexBufferD11, &stride, &offset);
+	m_DeviceContext->IASetVertexBuffers(0, 1, &mesh.VertexBufferD11, &stride, &offset);
 #endif
 }
 

@@ -463,18 +463,18 @@ HRESULT InitDevice()
 void CleanupDevice()
 {
 #ifdef D3D11
-    if( g_ApiManager->m_DeviceContext.m_DeviceContext ) g_ApiManager->m_DeviceContext.m_DeviceContext->ClearState();
+    if(g_ApiManager->m_DeviceContext.m_DeviceContext ) g_ApiManager->m_DeviceContext.m_DeviceContext->ClearState();
     if(g_ApiManager->m_SamplerLinear.SamplerStates) g_ApiManager->m_SamplerLinear.SamplerStates->Release();
-    if( g_pTextureRV ) g_pTextureRV->Release();
+    if(g_pTextureRV ) g_pTextureRV->Release();
     if(g_ApiManager->m_VertexBuffer.VertexBufferD11 ) g_ApiManager->m_VertexBuffer.VertexBufferD11->Release();
     if(g_ApiManager->m_IndexBuffer.IndexBufferD11 ) g_ApiManager->m_IndexBuffer.IndexBufferD11->Release();
     if(g_ApiManager->m_VertexShader.VertexShader) g_ApiManager->m_VertexShader.VertexShader->Release();
     if(g_ApiManager->m_PixelShader.PixelShader) g_ApiManager->m_PixelShader.PixelShader->Release();
     if(g_ApiManager->m_DepthStencil.Texture2D ) g_ApiManager->m_DepthStencil.Texture2D->Release();
-    if( g_ApiManager->m_DepthStencilView.DepthStencilView ) g_ApiManager->m_DepthStencilView.DepthStencilView->Release();
-    if( g_ApiManager->m_RendertargetView.RenderTargetView ) g_ApiManager->m_RendertargetView.RenderTargetView->Release();
+    if(g_ApiManager->m_DepthStencilView.DepthStencilView ) g_ApiManager->m_DepthStencilView.DepthStencilView->Release();
+    if(g_ApiManager->m_RendertargetView.RenderTargetView ) g_ApiManager->m_RendertargetView.RenderTargetView->Release();
     if(g_ApiManager->m_SwapChain.DXSC) g_ApiManager->m_SwapChain.DXSC->Release();
-    if( g_ApiManager->m_DeviceContext.m_DeviceContext ) g_ApiManager->m_DeviceContext.m_DeviceContext->Release();
+    if(g_ApiManager->m_DeviceContext.m_DeviceContext ) g_ApiManager->m_DeviceContext.m_DeviceContext->Release();
     if(g_ApiManager->m_Device.m_DeviceD11) g_ApiManager->m_Device.m_DeviceD11->Release();
 #endif
 }

@@ -20,6 +20,8 @@ public:
 
 	void Init();
 
+	void Set(CMesh Mesh);
+	CMesh Get(unsigned int NumMesh);
 private:
 };
 

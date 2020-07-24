@@ -3,6 +3,7 @@
 #include "CViewport.h"
 #include "CVertexShader.h"
 #include "Buffer.h"
+#include "CMesh.h"
 class CDeviceContext
 {
 private:

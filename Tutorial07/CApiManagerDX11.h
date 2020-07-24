@@ -8,6 +8,7 @@
 #include "CMyCamara.h"
 #include "CMyCameraFP.h"
 #include "CRenderTargetView.h"
+#include "CModelo.h"
 
 //#include "CDepthStencilView.h"
 #include "CPixelShader.h"
@@ -56,8 +57,11 @@ public:
 	CVertexShader m_VertexShader;
 	CPixelShader m_PixelShader;
 	CTexture2D m_BackBuffer;
+	CModelo m_Modelo;
+
 	CBuffer m_VertexBuffer;
 	CBuffer m_IndexBuffer;
+
 	CSamplerState m_SamplerLinear;
 	CInputLayout m_inputlayout;
 	
